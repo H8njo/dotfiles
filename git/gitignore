@@ -1,0 +1,53 @@
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+.VolumeIcon.icns
+.DS_Store?
+._*
+
+# Temporary files
+.Spotlight-V100
+.Trashes
+*/.TemporaryItems
+
+# git
+.SSH
+.gitconfig
+.gitignore_global
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# vscode
+.vscode/
+*.swp
+*.lock
+
+# Build
+dist/
+build/
+out/
+coverage/
+*.log
+
+# Environment variables
+.env
+.env.*.local
+
+# Webpack
+.cache/
+.webpack/
+
+# Next.js
+.next/
+*.next
+
+# Gatsby
+.cache/
+public/

@@ -1,0 +1,15 @@
+# vim: set ft=gitconfig noet:
+# @seealso https://www.kernel.org/pub/software/scm/git/docs/git-config.html
+
+[core]
+	excludesfile = ~/.gitignore
+	pager = "f() { local prettifier=$(which delta 2>/dev/null); ${prettifier:-less}; }; f"
+	editor = nvim
+
+[commit]
+	# git commit --verbose by default (git 2.9.0+)
+	verbose = true
+
+[credential]
+	# helper = store --file ~/.git-credentials
+	helper = cache --timeout 60
