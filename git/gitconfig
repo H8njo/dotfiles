@@ -1,5 +1,8 @@
 # vim: set ft=gitconfig noet:
 # @seealso https://www.kernel.org/pub/software/scm/git/docs/git-config.html
+[user]
+    name = H8njo
+    email = hoonjo.dev@gmail.com
 
 [core]
 	excludesfile = ~/.gitignore
