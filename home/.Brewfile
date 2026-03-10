@@ -20,5 +20,5 @@ cask "cursor"
 cask "1password"
 cask "1password-cli"
 cask "karabiner-elements"
-cask "raycast"
+cask "raycast"  # TODO: Required initial setup
 cask "readdle-spark"
