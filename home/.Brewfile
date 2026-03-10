@@ -4,6 +4,7 @@ tap "homebrew/cask-fonts"
 
 # Terminal
 brew "zsh"
+brew "tmux"
 
 # Development
 brew "git"
