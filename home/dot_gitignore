@@ -1,0 +1,44 @@
+# Global gitignore.
+
+# Vim
+.*.s[a-w][a-z]
+Session.vim
+.netrwhist
+.XTabline*
+
+# Mac OS X
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Linux
+.fuse_hidden*
+.nfs*
+
+# Windows
+Thumbs.db
+
+# IDE stuffs
+.vscode/
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+.ipynb_checkpoints/
+tags
+.vimspector.json
+.cache/
+
+# Build artifacts
+*.dSYM
+*.so
+*.dylib
+
+# Node
+node_modules/
+npm-debug.log
+
+# Log files
+events.out.tfevents.*
