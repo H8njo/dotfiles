@@ -32,7 +32,9 @@ echo "  3. Settings → Developer → 'Use the SSH Agent' 활성화"
 echo "  4. Settings → Developer → 'Allow Git commit signing' 활성화"
 echo "============================================"
 echo ""
+set +e  # Disable error exit for read command
 read -p "설정 완료 후 Enter를 누르세요..."
+set -e  # Re-enable error exit
 
 # 4. Verify SSH Agent
 echo "SSH Agent 확인 중..."
@@ -44,23 +46,22 @@ else
   echo "1Password 앱을 다시 확인하고, Settings → Developer에서:"
   echo "  - 'Use the SSH Agent' 활성화"
   echo "  - 'Allow Git commit signing' 활성화"
+  set +e
   read -p "완료 후 Enter를 누르세요..."
+  set -e
 
   # 다시 확인
   if ! [ -S "$SOCKET_PATH" ]; then
-    echo "⚠ 계속 문제가 있습니다. 스크립트를 계속 진행합니다..."
+    echo "❌ SSH Agent가 여전히 연결되지 않습니다."
+    echo "1Password 설정을 다시 확인해주세요."
+    exit 1
   fi
 fi
 
 # 5. Install chezmoi and apply dotfiles
 echo ""
 echo "Installing chezmoi and applying dotfiles..."
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@github.com:h8njo/dotfiles.git || {
-  echo "⚠ chezmoi 설치 중 오류가 발생했습니다."
-  echo "다음 명령어로 수동 설치를 시도해주세요:"
-  echo "sh -c \"\$(curl -fsLS get.chezmoi.io)\" -- init --apply git@github.com:h8njo/dotfiles.git"
-  read -p "계속하려면 Enter를 누르세요..."
-}
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@github.com:h8njo/dotfiles.git
 
 # 6. Install Brewfile packages
 echo ""
@@ -73,7 +74,9 @@ brew bundle --global || {
 echo ""
 if ! gh auth status &> /dev/null; then
   echo "Authenticating GitHub CLI..."
-  gh auth login --git-protocol ssh --web || echo "⚠ GitHub CLI 인증 실패"
+  set +e
+  gh auth login --git-protocol ssh --web
+  set -e
 else
   echo "✓ GitHub CLI 이미 인증됨"
 fi
@@ -81,7 +84,9 @@ fi
 # 8. Authenticate Claude Code
 if command -v claude &> /dev/null; then
   echo "Authenticating Claude Code..."
-  claude login || echo "⚠ Claude Code 인증 실패"
+  set +e
+  claude login
+  set -e
 else
   echo "⚠ Claude Code가 설치되지 않았습니다."
 fi
