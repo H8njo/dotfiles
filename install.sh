@@ -2,17 +2,23 @@
 
 set -euo pipefail
 
+# Setup logging
+LOG_FILE="/tmp/dotfiles_install_$(date +%Y%m%d_%H%M%S).log"
+exec 1> >(tee -a "$LOG_FILE")
+exec 2>&1
+
 echo "=== H8njo's Dotfiles Installer ==="
+echo "Log file: $LOG_FILE"
 echo ""
 
 # 1. Install Homebrew
 if ! command -v brew &> /dev/null; then
   echo "Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-else
-  echo "Homebrew already installed"
 fi
+
+# Setup Homebrew environment
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # 2. Install 1Password
 if [ ! -d "/Applications/1Password.app" ]; then
@@ -66,19 +72,28 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@github.com:h8njo/dotfil
 # 6. Install Brewfile packages
 echo ""
 echo "Installing Brewfile packages..."
-brew bundle --global || {
-  echo "⚠ Brewfile 설치 중 일부 패키지가 실패했을 수 있습니다."
-}
+BREWFILE="$HOME/.Brewfile"
+if [ -f "$BREWFILE" ]; then
+  brew bundle --file "$BREWFILE" || {
+    echo "⚠ Brewfile 설치 중 일부 패키지가 실패했을 수 있습니다."
+  }
+else
+  echo "⚠ Brewfile을 찾을 수 없습니다: $BREWFILE"
+fi
 
 # 7. Authenticate GitHub CLI
 echo ""
-if ! gh auth status &> /dev/null; then
-  echo "Authenticating GitHub CLI..."
-  set +e
-  gh auth login --git-protocol ssh --web
-  set -e
+if command -v gh &> /dev/null; then
+  if ! gh auth status &> /dev/null; then
+    echo "Authenticating GitHub CLI..."
+    set +e
+    gh auth login --git-protocol ssh --web
+    set -e
+  else
+    echo "✓ GitHub CLI 이미 인증됨"
+  fi
 else
-  echo "✓ GitHub CLI 이미 인증됨"
+  echo "⚠ GitHub CLI가 설치되지 않았습니다."
 fi
 
 # 8. Authenticate Claude Code
