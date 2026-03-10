@@ -1,0 +1,39 @@
+# Enable Powerlevel10k instant prompt.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# Oh My Zsh
+export ZSH="$HOME/.oh-my-zsh"
+export LANG=en_US.UTF-8
+
+# Theme
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+# Plugins
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions z)
+
+source $ZSH/oh-my-zsh.sh
+
+# Aliases
+alias c="clear"
+alias e="exit"
+alias p="pnpm"
+alias ga="git add ."
+alias gs="git status -s"
+alias gc="(){git commit -m $1}"
+alias glog="git log --graph --all --format=format:'%C(bold blue)%h%C(reset) %C(bold white)%cn%C(reset)%C(bold white): %C(reset)%s%C(reset) %C(bold green)  (%cr)%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative"
+
+# NVM
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# pnpm
+export PNPM_HOME="$HOME/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# Powerlevel10k config
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
