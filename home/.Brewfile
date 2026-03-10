@@ -25,6 +25,9 @@ cask "raycast"  # TODO: Required initial setup
 cask "readdle-spark"
 cask "obsidian"
 cask "arc"
+cask "keka"
+cask "aldente"
+cask "appcleaner"
 
 # Mac App Store
 mas "KakaoTalk", id: 869223134
