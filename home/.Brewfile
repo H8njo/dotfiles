@@ -8,6 +8,7 @@ brew "zsh"
 # Development
 brew "git"
 brew "gh"
+brew "mas"
 brew "nvm"
 brew "pnpm"
 
