@@ -25,3 +25,10 @@ if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlightin
 fi
 
 echo "Oh My Zsh setup complete!"
+
+# Configure iTerm2 to use custom preferences folder
+if [ -d "/Applications/iTerm.app" ]; then
+  echo "Configuring iTerm2 preferences folder..."
+  defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$HOME/.config/iterm2"
+  defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
+fi
