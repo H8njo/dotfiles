@@ -26,11 +26,8 @@ cask "claude-code"
 # Fonts (for Powerlevel10k and iTerm2)
 cask "font-meslo-lg-nerd-font"
 
-# Apps
-cask "iterm2"
+# Apps (iTerm2, 1Password는 install.sh에서 먼저 설치됨)
 cask "cursor"
-cask "1password"
-cask "1password-cli"
 cask "karabiner-elements"
 cask "raycast"  # TODO: Required initial setup
 cask "readdle-spark"
