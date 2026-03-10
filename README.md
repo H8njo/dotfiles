@@ -82,6 +82,7 @@ Phase 6: 인증
 ```
 .
 ├── install.sh                    # Bootstrap script (자동화)
+├── uninstall.sh                  # 완전 초기화 script
 ├── home/
 │   ├── .Brewfile                 # Homebrew packages
 │   ├── .chezmoi.toml.tmpl        # chezmoi config (1Password secrets)
@@ -120,6 +121,22 @@ Phase 6: 인증
 
 ### Cursor
 - GitHub 계정 로그인 (Settings Sync)
+
+## Uninstall
+
+모든 것을 삭제하고 새 맥북 상태로 초기화:
+
+```bash
+curl -fsLS https://raw.githubusercontent.com/h8njo/dotfiles/main/uninstall.sh | bash
+```
+
+삭제되는 항목:
+- 모든 Homebrew 패키지 및 Homebrew 자체
+- 모든 cask 앱 (iTerm2, Cursor, 1Password 등)
+- Oh My Zsh, Powerlevel10k, zsh 플러그인
+- tmux 플러그인, Neovim 설정
+- chezmoi 및 모든 dotfiles
+- macOS 설정 (기본값으로 복원)
 
 ## Manual Setup
 
