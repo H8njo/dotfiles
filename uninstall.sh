@@ -20,16 +20,16 @@ echo "    - tmux 플러그인"
 echo "    - Neovim 설정"
 echo "    - macOS 설정 초기화"
 echo ""
-echo "계속하시겠습니까? (yes 입력)"
-read -r confirm
+printf "계속하시겠습니까? (yes 입력): "
+read -r confirm < /dev/tty
 if [[ "$confirm" != "yes" ]]; then
   echo "취소되었습니다."
   exit 0
 fi
 
 echo ""
-echo "정말로 모든 것을 삭제하시겠습니까? (DELETE 입력)"
-read -r confirm2
+printf "정말로 모든 것을 삭제하시겠습니까? (DELETE 입력): "
+read -r confirm2 < /dev/tty
 if [[ "$confirm2" != "DELETE" ]]; then
   echo "취소되었습니다."
   exit 0
