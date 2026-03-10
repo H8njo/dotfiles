@@ -13,6 +13,9 @@ brew "mas"
 brew "nvm"
 brew "pnpm"
 
+# Neovim
+brew "neovim"
+
 # AI
 cask "claude-code"
 
