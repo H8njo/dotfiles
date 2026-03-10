@@ -73,6 +73,11 @@ curl -fsLS https://raw.githubusercontent.com/h8njo/dotfiles/main/install.sh | ba
 ### Karabiner-Elements
 - 첫 실행 시 System Settings → Privacy → Accessibility 권한 허용
 
+### 입력소스 전환 단축키
+- System Settings → Keyboard → Keyboard Shortcuts → Input Sources
+- "Select the previous input source" → F13으로 변경
+- Karabiner가 Shift+Space → F13 매핑하므로, Shift+Space로 입력소스 전환됨
+
 ### Mac App Store
 - `mas`로 설치하려면 App Store에 먼저 로그인 필요
 
