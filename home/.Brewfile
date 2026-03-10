@@ -15,6 +15,9 @@ brew "pnpm"
 
 # Neovim
 brew "neovim"
+brew "ripgrep"
+brew "fd"
+brew "lazygit"
 
 # AI
 cask "claude-code"
