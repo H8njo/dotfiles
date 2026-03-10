@@ -1,0 +1,6 @@
+[
+  {
+    "key": "shift+cmd+.",
+    "command": "editor.emmet.action.wrapWithAbbreviation"
+  }
+]
