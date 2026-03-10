@@ -52,6 +52,12 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@github.com:h8njo/dotfil
 echo "Installing Brewfile packages..."
 brew bundle --global
 
+# 7. Authenticate GitHub CLI
+if ! gh auth status &> /dev/null; then
+  echo "Authenticating GitHub CLI..."
+  gh auth login --git-protocol ssh --web
+fi
+
 echo ""
 echo "=== 설치 완료! ==="
 echo "터미널을 재시작하세요."
