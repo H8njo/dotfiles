@@ -127,7 +127,7 @@ Phase 6: 인증
 모든 것을 삭제하고 새 맥북 상태로 초기화:
 
 ```bash
-curl -fsLS https://raw.githubusercontent.com/h8njo/dotfiles/main/uninstall.sh | bash
+curl -fsSL https://raw.githubusercontent.com/h8njo/dotfiles/main/uninstall.sh -o /tmp/uninstall.sh && bash /tmp/uninstall.sh
 ```
 
 삭제되는 항목:

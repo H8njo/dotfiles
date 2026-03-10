@@ -9,6 +9,19 @@
 
 set -euo pipefail
 
+# curl | bash로 실행 시 입력을 받을 수 없으므로 파일로 다운로드 후 실행 안내
+if [ ! -t 0 ]; then
+  echo "=== H8njo's Dotfiles Uninstaller ==="
+  echo ""
+  echo "⚠️  이 스크립트는 확인 입력이 필요합니다."
+  echo ""
+  echo "다음 명령으로 실행하세요:"
+  echo ""
+  echo "  curl -fsSL https://raw.githubusercontent.com/h8njo/dotfiles/main/uninstall.sh -o /tmp/uninstall.sh && bash /tmp/uninstall.sh"
+  echo ""
+  exit 0
+fi
+
 echo "=== H8njo's Dotfiles Uninstaller ==="
 echo ""
 echo "⚠️  경고: 이 스크립트는 다음을 모두 삭제합니다:"
@@ -21,7 +34,7 @@ echo "    - Neovim 설정"
 echo "    - macOS 설정 초기화"
 echo ""
 printf "계속하시겠습니까? (yes 입력): "
-read -r confirm < /dev/tty
+read -r confirm
 if [[ "$confirm" != "yes" ]]; then
   echo "취소되었습니다."
   exit 0
@@ -29,7 +42,7 @@ fi
 
 echo ""
 printf "정말로 모든 것을 삭제하시겠습니까? (DELETE 입력): "
-read -r confirm2 < /dev/tty
+read -r confirm2
 if [[ "$confirm2" != "DELETE" ]]; then
   echo "취소되었습니다."
   exit 0
