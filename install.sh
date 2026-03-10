@@ -2,6 +2,9 @@
 
 set -euo pipefail
 
+# Redirect stdin to terminal for read command to work with piped execution
+exec < /dev/tty
+
 echo "=== H8njo's Dotfiles Installer ==="
 echo ""
 
