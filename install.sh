@@ -36,12 +36,14 @@ read -p "설정 완료 후 Enter를 누르세요..."
 
 # 4. Verify SSH Agent
 echo "SSH Agent 확인 중..."
-if ssh-add -l &> /dev/null; then
+if [ -S "$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock" ]; then
   echo "SSH Agent 연결 성공!"
 else
-  echo "경고: SSH Agent가 아직 연결되지 않았습니다."
-  echo "1Password SSH Agent 설정을 확인해주세요."
-  read -p "계속하려면 Enter를 누르세요..."
+  echo "경고: 1Password SSH Agent 소켓이 없습니다."
+  echo "1Password 앱을 확인하고, Settings → Developer에서:"
+  echo "  - 'Use the SSH Agent' 활성화"
+  echo "  - 'Allow Git commit signing' 활성화"
+  read -p "완료 후 Enter를 누르세요..."
 fi
 
 # 5. Install chezmoi and apply dotfiles
