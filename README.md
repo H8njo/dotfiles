@@ -27,6 +27,7 @@ curl -fsLS https://raw.githubusercontent.com/h8njo/dotfiles/main/install.sh | ba
 
 ### Homebrew
 - git, git-delta, gh, nvm, pnpm, mas
+- neovim, ripgrep, fd, lazygit, tmux
 
 ### Apps
 - iTerm2, Cursor, 1Password, Karabiner-Elements, Raycast
@@ -45,8 +46,10 @@ curl -fsLS https://raw.githubusercontent.com/h8njo/dotfiles/main/install.sh | ba
 │   ├── .Brewfile                 # Homebrew packages
 │   ├── .chezmoi.toml.tmpl        # chezmoi config (1Password)
 │   ├── .chezmoiscripts/          # Auto-run scripts
-│   │   ├── run_once_install-oh-my-zsh.sh
-│   │   └── run_once_install-cursor-extensions.sh
+│   │   ├── install-oh-my-zsh.sh
+│   │   ├── install-cursor-extensions.sh
+│   │   ├── install-tmux-plugins.sh
+│   │   └── configure-macos.sh
 │   ├── dot_gitconfig.tmpl        # Git config (delta, aliases)
 │   ├── dot_gitignore             # Global gitignore
 │   ├── dot_zshrc                 # Zsh config (Oh My Zsh, P10k)
@@ -54,7 +57,9 @@ curl -fsLS https://raw.githubusercontent.com/h8njo/dotfiles/main/install.sh | ba
 │   ├── private_dot_ssh/config    # SSH config (1Password Agent)
 │   └── private_dot_config/
 │       ├── iterm2/               # iTerm2 settings
-│       └── karabiner/            # Karabiner config (Shift+Space → F13)
+│       ├── karabiner/            # Karabiner config (Shift+Space → F13)
+│       ├── nvim/                 # Neovim (LazyVim)
+│       └── tmux/                 # tmux config (catppuccin, vim-navigator)
 ├── .chezmoiroot
 └── README.md
 ```
@@ -83,6 +88,7 @@ curl -fsLS https://raw.githubusercontent.com/h8njo/dotfiles/main/install.sh | ba
 
 ### Cursor
 - GitHub 계정 로그인 (Settings Sync)
+
 
 ## Manual Setup
 
