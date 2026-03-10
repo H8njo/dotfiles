@@ -148,17 +148,30 @@ fi
 
 echo "✓ 1Password CLI 연동 완료"
 
-# 1Password 데이터 접근 테스트 (biometric 프롬프트 발생 가능)
-echo "1Password 접근 테스트 중..."
-if ! op read "op://Personal/Github-H8njo/username" &>/dev/null; then
+# 1Password 데이터 접근 테스트
+echo ""
+echo "1Password 데이터 접근 테스트 중..."
+echo ""
+echo "╔══════════════════════════════════════════════╗"
+echo "║  1Password 인증이 필요할 수 있습니다:        ║"
+echo "║                                              ║"
+echo "║  • 1Password 앱에서 인증 요청이 뜨면         ║"
+echo "║    Face ID / Touch ID / 비밀번호로 승인      ║"
+echo "║                                              ║"
+echo "║  인증이 완료되면 자동으로 진행됩니다...      ║"
+echo "╚══════════════════════════════════════════════╝"
+echo ""
+
+# 폴링으로 대기 (biometric 인증 완료될 때까지)
+if ! wait_for "1Password 인증 대기 중..." "op read 'op://Personal/Github-H8njo/username' &>/dev/null" 300; then
   echo ""
-  echo "1Password에서 인증이 필요합니다. (Face ID / Touch ID / 비밀번호)"
+  echo "❌ 1Password 데이터 접근에 실패했습니다."
   echo ""
-  # 다시 시도 - biometric 프롬프트 발생
-  if ! op read "op://Personal/Github-H8njo/username" &>/dev/null; then
-    echo "❌ 1Password 데이터 접근에 실패했습니다."
-    exit 1
-  fi
+  echo "확인사항:"
+  echo "  1. 1Password 앱이 잠금 해제되어 있는지 확인"
+  echo "  2. Settings → Developer → 'Integrate with 1Password CLI' 켜져있는지 확인"
+  echo "  3. 1Password 앱에서 인증 요청을 승인했는지 확인"
+  exit 1
 fi
 echo "✓ 1Password 데이터 접근 가능"
 
