@@ -16,3 +16,5 @@ cask "font-meslo-lg-nerd-font"
 
 # Apps
 cask "cursor"
+cask "1password"
+cask "1password-cli"
