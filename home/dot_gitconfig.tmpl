@@ -2,11 +2,82 @@
 	email = {{ .email }}
 	name = {{ .name }}
 	signingkey = {{ .signingkey }}
+
 [init]
 	defaultBranch = main
+
 [gpg]
 	format = ssh
+
 [gpg "ssh"]
 	program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+
 [commit]
 	gpgsign = true
+	verbose = true
+
+[core]
+	pager = delta
+	quotepath = false
+	editor = vim
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	features = decorations
+	line-numbers = true
+	keep-plus-minus-markers = true
+	hunk-header-style = file line-number syntax
+	map-styles = bold purple => syntax "#3e003e", bold cyan => syntax "#042c42"
+
+[delta "decorations"]
+	file-style = yellow bold
+	file-decoration-style = yellow ul ol
+	commit-decoration-style = yellow bold ul ol
+
+[diff]
+	noprefix = true
+	renames = copies
+	algorithm = patience
+	colorMoved = default
+	colorMovedWS = allow-indentation-change
+
+[merge]
+	conflictstyle = diff3
+
+[pull]
+	rebase = true
+
+[push]
+	default = simple
+
+[fetch]
+	parallel = 0
+
+[branch]
+	autosetuprebase = always
+	sort = -committerdate
+
+[rebase]
+	autoSquash = true
+	autoStash = true
+
+[rerere]
+	enabled = true
+
+[stash]
+	showPatch = true
+
+[alias]
+	co = checkout
+	unstage = reset HEAD --
+	discard = checkout --
+	amend = commit --amend -v
+	wdiff = diff --color-words
+	wshow = show --color-words
+	sdiff = -c core.pager='delta -s' diff
+	sshow = -c core.pager='delta -s' show
+
+[url "git@github.com:"]
+	pushInsteadOf = https://github.com/

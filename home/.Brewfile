@@ -7,6 +7,7 @@ brew "zsh"
 
 # Development
 brew "git"
+brew "git-delta"
 brew "gh"
 brew "mas"
 brew "nvm"
