@@ -12,6 +12,9 @@ brew "mas"
 brew "nvm"
 brew "pnpm"
 
+# AI
+cask "claude-code"
+
 # Fonts (for Powerlevel10k and iTerm2)
 cask "font-meslo-lg-nerd-font"
 

@@ -58,6 +58,12 @@ if ! gh auth status &> /dev/null; then
   gh auth login --git-protocol ssh --web
 fi
 
+# 8. Authenticate Claude Code
+if command -v claude &> /dev/null; then
+  echo "Authenticating Claude Code..."
+  claude login
+fi
+
 echo ""
 echo "=== 설치 완료! ==="
 echo "터미널을 재시작하세요."
