@@ -43,3 +43,4 @@ cask "appcleaner"
 # Mac App Store
 mas "KakaoTalk", id: 869223134
 mas "RunCat", id: 1429033973
+mas "Folder Hub", id: 6473019059
