@@ -29,30 +29,28 @@ else
   echo "iTerm2 already installed"
 fi
 
-# 3. Install chezmoi and apply dotfiles (for terminal settings)
-echo ""
-echo "Installing chezmoi and applying dotfiles..."
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@github.com:h8njo/dotfiles.git
-
-# 4. Terminal setup complete - restart required
+# 3. Terminal restart checkpoint
 echo ""
 echo "============================================"
-echo "  터미널 설정이 완료되었습니다!"
-echo "  다음 단계를 진행하려면:"
+echo "  iTerm2 설치가 완료되었습니다!"
+echo "  계속하려면:"
 echo ""
-echo "  1. iTerm2를 열기 (설정이 자동으로 적용됨)"
+echo "  1. iTerm2를 열기"
 echo "  2. iTerm2를 재시작하기"
-echo "  3. iTerm2 터미널에서 다음 명령 실행:"
-echo ""
-echo "  sh -c \"$(curl -fsLS get.chezmoi.io)\" -- apply"
+echo "  3. iTerm2에서 이 스크립트를 다시 실행하기"
 echo ""
 echo "============================================"
 echo ""
 set +e
-read -p "iTerm2 재시작 후 Enter를 누르세요..."
+read -p "iTerm2를 열고 재시작한 후 Enter를 누르세요..."
 set -e
 
-# 5. Install 1Password
+# 4. Install chezmoi and apply dotfiles (in iTerm2)
+echo ""
+echo "Installing chezmoi and applying dotfiles..."
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@github.com:h8njo/dotfiles.git
+
+# 5. Install 1Password (in iTerm2)
 if [ ! -d "/Applications/1Password.app" ]; then
   echo "Installing 1Password..."
   brew install --cask 1password 1password-cli
@@ -96,7 +94,7 @@ else
   fi
 fi
 
-# 9. Install Brewfile packages
+# 8. Install Brewfile packages
 echo ""
 echo "Installing Brewfile packages..."
 BREWFILE="$HOME/.Brewfile"
@@ -108,7 +106,7 @@ else
   echo "⚠ Brewfile을 찾을 수 없습니다: $BREWFILE"
 fi
 
-# 10. Authenticate GitHub CLI
+# 9. Authenticate GitHub CLI
 echo ""
 if command -v gh &> /dev/null; then
   if ! gh auth status &> /dev/null; then
@@ -123,7 +121,7 @@ else
   echo "⚠ GitHub CLI가 설치되지 않았습니다."
 fi
 
-# 11. Authenticate Claude Code
+# 10. Authenticate Claude Code
 if command -v claude &> /dev/null; then
   echo "Authenticating Claude Code..."
   set +e
