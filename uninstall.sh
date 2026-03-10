@@ -24,6 +24,15 @@ fi
 
 echo "=== H8njo's Dotfiles Uninstaller ==="
 echo ""
+
+# iTerm2에서 실행 중인지 확인
+if [[ "${TERM_PROGRAM:-}" == "iTerm.app" ]]; then
+  echo "⚠️  주의: iTerm2에서 실행 중입니다."
+  echo "   iTerm2도 삭제되므로 스크립트 완료 후 터미널이 종료됩니다."
+  echo "   (기본 Terminal.app에서 실행하면 이 문제가 없습니다)"
+  echo ""
+fi
+
 echo "⚠️  경고: 이 스크립트는 다음을 모두 삭제합니다:"
 echo "    - 모든 Homebrew 패키지 및 앱"
 echo "    - Homebrew 자체"
@@ -86,9 +95,8 @@ fi
 # =============================================================================
 echo "[ 4/10 ] Homebrew 앱 삭제..."
 if command -v brew &>/dev/null; then
-  # 설치된 cask 목록
+  # 설치된 cask 목록 (iTerm2는 마지막에 삭제 - 현재 터미널일 수 있음)
   CASKS=(
-    "iterm2"
     "cursor"
     "1password"
     "1password-cli"
@@ -214,9 +222,17 @@ killall Dock 2>/dev/null || true
 killall Finder 2>/dev/null || true
 
 # =============================================================================
-# 10. Homebrew 완전 삭제
+# 10. iTerm2 삭제 (마지막에 - 현재 터미널일 수 있음)
 # =============================================================================
-echo "[ 10/10 ] Homebrew 삭제..."
+echo "[ 10/11 ] iTerm2 삭제..."
+if command -v brew &>/dev/null; then
+  brew uninstall --cask iterm2 2>/dev/null || true
+fi
+
+# =============================================================================
+# 11. Homebrew 완전 삭제
+# =============================================================================
+echo "[ 11/11 ] Homebrew 삭제..."
 if command -v brew &>/dev/null; then
   # Homebrew 공식 uninstall 스크립트
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)" -- --force
