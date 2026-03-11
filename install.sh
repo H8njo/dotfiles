@@ -168,31 +168,26 @@ echo "║  인증이 완료되면 자동으로 진행됩니다...      ║"
 echo "╚══════════════════════════════════════════════╝"
 echo ""
 
-# 직접 폴링 (wait_for 함수의 따옴표 문제 회피)
-OP_TIMEOUT=300
-OP_ELAPSED=0
-OP_SPINNER='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
+# 첫 번째 시도 - 인증 팝업을 보이게 함 (출력 표시)
+echo "1Password 데이터 읽기 시도 중..."
+echo "(1Password 앱에서 '터미널 접근 허용' 팝업이 뜨면 승인하세요)"
+echo ""
 
-printf "1Password 인증 대기 중... "
-while ! op read "op://Personal/Github-H8njo/username" &>/dev/null; do
-  i=$(( OP_ELAPSED % ${#OP_SPINNER} ))
-  printf "\r1Password 인증 대기 중... %s" "${OP_SPINNER:$i:1}"
-  sleep 1
-  OP_ELAPSED=$((OP_ELAPSED + 1))
-  if [ $OP_ELAPSED -ge $OP_TIMEOUT ]; then
-    printf "\r1Password 인증 대기 중... ❌ 타임아웃\n"
-    echo ""
-    echo "❌ 1Password 데이터 접근에 실패했습니다."
-    echo ""
-    echo "확인사항:"
-    echo "  1. 1Password 앱이 잠금 해제되어 있는지 확인"
-    echo "  2. Settings → Developer → 'Integrate with 1Password CLI' 켜져있는지 확인"
-    echo "  3. 1Password 앱에서 '터미널 접근 허용' 승인했는지 확인"
-    exit 1
-  fi
-done
-printf "\r1Password 인증 대기 중... ✓\n"
-echo "✓ 1Password 데이터 접근 가능"
+if op read "op://Personal/Github-H8njo/username"; then
+  echo ""
+  echo "✓ 1Password 데이터 접근 가능"
+else
+  echo ""
+  echo "❌ 1Password 데이터 접근에 실패했습니다."
+  echo ""
+  echo "확인사항:"
+  echo "  1. 1Password 앱이 잠금 해제되어 있는지 확인"
+  echo "  2. Settings → Developer → 'Integrate with 1Password CLI' 켜져있는지 확인"
+  echo "  3. 1Password 앱에서 '터미널 접근 허용' 팝업을 승인했는지 확인"
+  echo ""
+  echo "다시 시도하려면 install.sh를 다시 실행하세요."
+  exit 1
+fi
 
 # =============================================================================
 # PHASE 4: Brewfile 패키지 (chezmoi scripts 의존성)
