@@ -25,6 +25,7 @@ cask "claude-code"
 
 # Fonts (for Powerlevel10k and iTerm2)
 cask "font-meslo-lg-nerd-font"
+cask "font-fira-code-nerd-font"
 
 # Apps (iTerm2, 1Password는 install.sh에서 먼저 설치됨)
 cask "cursor"

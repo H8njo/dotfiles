@@ -59,61 +59,64 @@ if [ ! -d "/Applications/iTerm.app" ]; then
   brew install --cask iterm2
 fi
 
-# iTerm2에서 실행 중이 아니면 - 터미널 환경 먼저 설정 후 재시작 안내
-if [[ "${TERM_PROGRAM:-}" != "iTerm.app" ]]; then
-  echo ""
-  echo "iTerm2에서 재시작 전에 터미널 환경을 설정합니다..."
-  echo ""
+# ===================
+# 터미널 환경 설정 (iTerm2 여부와 관계없이 항상 실행)
+# ===================
 
-  # ===================
-  # Oh My Zsh 설치
-  # ===================
-  if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    echo "Installing Oh My Zsh..."
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-  fi
+# Oh My Zsh 설치
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  echo "Installing Oh My Zsh..."
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
   echo "✓ Oh My Zsh"
+fi
 
-  # ===================
-  # Powerlevel10k 테마 설치
-  # ===================
-  if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" ]; then
-    echo "Installing Powerlevel10k..."
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
-  fi
+# Powerlevel10k 테마 설치
+if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" ]; then
+  echo "Installing Powerlevel10k..."
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
   echo "✓ Powerlevel10k"
+fi
 
-  # ===================
-  # Zsh 플러그인 설치
-  # ===================
-  if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; then
-    echo "Installing zsh-autosuggestions..."
-    git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
-  fi
+# Zsh 플러그인 설치
+if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; then
+  echo "Installing zsh-autosuggestions..."
+  git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
+fi
 
-  if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" ]; then
-    echo "Installing zsh-syntax-highlighting..."
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
-  fi
-  echo "✓ Zsh 플러그인"
+if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" ]; then
+  echo "Installing zsh-syntax-highlighting..."
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
+fi
 
-  # ===================
-  # .zshrc, .p10k.zsh 다운로드
-  # ===================
-  echo "Downloading shell config files..."
+# .zshrc, .p10k.zsh 다운로드 (없으면)
+if [ ! -f "$HOME/.zshrc" ]; then
+  echo "Downloading .zshrc..."
   curl -fsSL "https://raw.githubusercontent.com/h8njo/dotfiles/main/home/dot_zshrc" -o "$HOME/.zshrc"
-  curl -fsSL "https://raw.githubusercontent.com/h8njo/dotfiles/main/home/dot_p10k.zsh" -o "$HOME/.p10k.zsh"
-  echo "✓ .zshrc, .p10k.zsh"
+  echo "✓ .zshrc"
+fi
 
-  # ===================
-  # iTerm2 설정 (커스텀 폴더 사용)
-  # ===================
+if [ ! -f "$HOME/.p10k.zsh" ]; then
+  echo "Downloading .p10k.zsh..."
+  curl -fsSL "https://raw.githubusercontent.com/h8njo/dotfiles/main/home/dot_p10k.zsh" -o "$HOME/.p10k.zsh"
+  echo "✓ .p10k.zsh"
+fi
+
+# Nerd Font 설치
+brew tap homebrew/cask-fonts 2>/dev/null || true
+brew install --cask font-fira-code-nerd-font 2>/dev/null || true
+brew install --cask font-meslo-lg-nerd-font 2>/dev/null || true
+
+# iTerm2 설정 (커스텀 폴더 사용)
+if [ ! -f "$HOME/.config/iterm2/com.googlecode.iterm2.plist" ]; then
   mkdir -p "$HOME/.config/iterm2"
   curl -fsSL "https://raw.githubusercontent.com/h8njo/dotfiles/main/home/private_dot_config/iterm2/com.googlecode.iterm2.plist" -o "$HOME/.config/iterm2/com.googlecode.iterm2.plist"
   defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$HOME/.config/iterm2"
   defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
   echo "✓ iTerm2 설정"
+fi
 
+# iTerm2에서 실행 중이 아니면 - 재시작 안내
+if [[ "${TERM_PROGRAM:-}" != "iTerm.app" ]]; then
   echo ""
   echo "============================================"
   echo "  터미널 환경 설정 완료!"
