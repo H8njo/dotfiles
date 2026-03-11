@@ -6,6 +6,9 @@ tap "homebrew/cask-fonts"
 brew "zsh"
 brew "tmux"
 
+# Dotfiles
+brew "chezmoi"
+
 # Development
 brew "git"
 brew "git-delta"

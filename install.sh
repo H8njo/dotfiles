@@ -287,7 +287,7 @@ echo "[ Phase 5: chezmoi (dotfiles) ]"
 
 if ! command -v chezmoi &> /dev/null; then
   echo "Installing chezmoi..."
-  sh -c "$(curl -fsLS get.chezmoi.io)"
+  brew install chezmoi
 fi
 
 # chezmoi init --apply (1Password 시크릿 사용)
