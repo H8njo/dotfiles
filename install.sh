@@ -59,11 +59,64 @@ if [ ! -d "/Applications/iTerm.app" ]; then
   brew install --cask iterm2
 fi
 
-# iTerm2에서 실행 중인지 확인 - 아니면 재시작 요청
+# iTerm2에서 실행 중이 아니면 - 터미널 환경 먼저 설정 후 재시작 안내
 if [[ "${TERM_PROGRAM:-}" != "iTerm.app" ]]; then
   echo ""
+  echo "iTerm2에서 재시작 전에 터미널 환경을 설정합니다..."
+  echo ""
+
+  # ===================
+  # Oh My Zsh 설치
+  # ===================
+  if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    echo "Installing Oh My Zsh..."
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  fi
+  echo "✓ Oh My Zsh"
+
+  # ===================
+  # Powerlevel10k 테마 설치
+  # ===================
+  if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" ]; then
+    echo "Installing Powerlevel10k..."
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+  fi
+  echo "✓ Powerlevel10k"
+
+  # ===================
+  # Zsh 플러그인 설치
+  # ===================
+  if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; then
+    echo "Installing zsh-autosuggestions..."
+    git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
+  fi
+
+  if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" ]; then
+    echo "Installing zsh-syntax-highlighting..."
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
+  fi
+  echo "✓ Zsh 플러그인"
+
+  # ===================
+  # .zshrc, .p10k.zsh 다운로드
+  # ===================
+  echo "Downloading shell config files..."
+  curl -fsSL "https://raw.githubusercontent.com/h8njo/dotfiles/main/home/dot_zshrc" -o "$HOME/.zshrc"
+  curl -fsSL "https://raw.githubusercontent.com/h8njo/dotfiles/main/home/dot_p10k.zsh" -o "$HOME/.p10k.zsh"
+  echo "✓ .zshrc, .p10k.zsh"
+
+  # ===================
+  # iTerm2 설정 (커스텀 폴더 사용)
+  # ===================
+  mkdir -p "$HOME/.config/iterm2"
+  curl -fsSL "https://raw.githubusercontent.com/h8njo/dotfiles/main/home/private_dot_config/iterm2/com.googlecode.iterm2.plist" -o "$HOME/.config/iterm2/com.googlecode.iterm2.plist"
+  defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$HOME/.config/iterm2"
+  defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
+  echo "✓ iTerm2 설정"
+
+  echo ""
   echo "============================================"
-  echo "  iTerm2 설치가 완료되었습니다!"
+  echo "  터미널 환경 설정 완료!"
   echo ""
   echo "  다음 단계:"
   echo "  1. iTerm2 앱 열기"
@@ -207,35 +260,16 @@ if ! command -v mas &>/dev/null; then
   brew install mas
 fi
 
-# Mac App Store 로그인 확인
 echo ""
-echo "Mac App Store 앱 설치를 위해 로그인 상태를 확인합니다..."
-if ! mas account &>/dev/null; then
-  echo ""
-  echo "╔══════════════════════════════════════════════╗"
-  echo "║  App Store 로그인이 필요합니다:              ║"
-  echo "║                                              ║"
-  echo "║  1. App Store 앱 열기                        ║"
-  echo "║  2. Apple ID로 로그인                        ║"
-  echo "║                                              ║"
-  echo "║  로그인이 완료되면 자동으로 진행됩니다...    ║"
-  echo "╚══════════════════════════════════════════════╝"
-  echo ""
-
-  open -a "App Store"
-
-  if ! wait_for "App Store 로그인 대기 중..." "mas account &>/dev/null" 600; then
-    echo ""
-    echo "⚠ App Store 로그인을 건너뜁니다. MAS 앱은 나중에 수동 설치하세요."
-    # mas 라인 제거한 Brewfile 생성
-    grep -v "^mas " "$TEMP_BREWFILE" > "${TEMP_BREWFILE}.nomas"
-    mv "${TEMP_BREWFILE}.nomas" "$TEMP_BREWFILE"
-  fi
-fi
-
 echo "Brewfile 패키지 설치 중... (시간이 걸릴 수 있습니다)"
+echo "(App Store 앱은 로그인되어 있어야 설치됩니다)"
+echo ""
 brew bundle --file "$TEMP_BREWFILE" || {
+  echo ""
   echo "⚠ 일부 패키지 설치에 실패했을 수 있습니다."
+  echo "  App Store 앱이 설치되지 않았다면:"
+  echo "  1. App Store 앱에서 Apple ID 로그인"
+  echo "  2. brew bundle --global 명령으로 재시도"
 }
 
 rm -f "$TEMP_BREWFILE"

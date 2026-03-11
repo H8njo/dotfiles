@@ -23,8 +23,12 @@ curl -fsLS https://raw.githubusercontent.com/h8njo/dotfiles/main/install.sh | ba
 Phase 1: Homebrew
   └─ brew 설치 (없으면)
 
-Phase 2: iTerm2
-  └─ 설치 후 iTerm2에서 재실행 안내 (Terminal.app이면)
+Phase 2: iTerm2 + 터미널 환경
+  ├─ iTerm2 설치
+  ├─ Oh My Zsh + Powerlevel10k + 플러그인 설치
+  ├─ .zshrc, .p10k.zsh 다운로드
+  ├─ iTerm2 설정 적용
+  └─ iTerm2에서 재실행 안내 (Terminal.app이면)
 
 Phase 3: 1Password
   ├─ 앱 + CLI 설치
@@ -34,12 +38,11 @@ Phase 3: 1Password
 
 Phase 4: Brewfile 패키지
   ├─ mas 설치
-  ├─ App Store 로그인 대기 (자동 폴링)
-  └─ 모든 패키지 설치 (cursor, tmux 등)
+  └─ 모든 패키지 설치 (cursor, tmux, App Store 앱 등)
 
 Phase 5: chezmoi (dotfiles)
   ├─ 1Password 시크릿으로 gitconfig 생성
-  └─ run_once scripts 실행 (oh-my-zsh, cursor extensions 등)
+  └─ run_once scripts 실행 (cursor extensions, tmux plugins 등)
 
 Phase 6: 인증
   ├─ GitHub CLI (브라우저)
@@ -57,8 +60,8 @@ Phase 6: 인증
 4. **Integrate with 1Password CLI** 켜기
 5. **Allow Git commit signing** 켜기
 
-### App Store (앱이 자동으로 열림)
-1. **Apple ID로 로그인**
+### App Store (설치 전 로그인 필요)
+1. **App Store 앱에서 Apple ID로 로그인** (로그인 안 되어 있으면 MAS 앱 설치 스킵됨)
 
 ### GitHub / Claude Code
 1. **브라우저에서 인증 완료**
