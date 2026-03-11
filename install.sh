@@ -102,8 +102,6 @@ if [ ! -f "$HOME/.p10k.zsh" ]; then
 fi
 
 # Nerd Font 설치
-brew tap homebrew/cask-fonts 2>/dev/null || true
-brew install --cask font-fira-code-nerd-font 2>/dev/null || true
 brew install --cask font-meslo-lg-nerd-font 2>/dev/null || true
 
 # iTerm2 설정 (커스텀 폴더 사용)

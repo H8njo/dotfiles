@@ -1,7 +1,8 @@
 {
   "workbench.iconTheme": "material-icon-theme",
   "terminal.integrated.defaultProfile.osx": "zsh",
-  "editor.fontFamily": "Meslo LG M for Powerline,Menlo, Monaco, 'Courier New', monospace",
+  "editor.fontFamily": "MesloLGS Nerd Font, Menlo, Monaco, 'Courier New', monospace",
+  "terminal.integrated.fontFamily": "MesloLGS Nerd Font",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.accessibilitySupport": "off",
