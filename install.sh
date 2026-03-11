@@ -168,17 +168,30 @@ echo "║  인증이 완료되면 자동으로 진행됩니다...      ║"
 echo "╚══════════════════════════════════════════════╝"
 echo ""
 
-# 폴링으로 대기 (biometric 인증 완료될 때까지)
-if ! wait_for "1Password 인증 대기 중..." "op read 'op://Personal/Github-H8njo/username' &>/dev/null" 300; then
-  echo ""
-  echo "❌ 1Password 데이터 접근에 실패했습니다."
-  echo ""
-  echo "확인사항:"
-  echo "  1. 1Password 앱이 잠금 해제되어 있는지 확인"
-  echo "  2. Settings → Developer → 'Integrate with 1Password CLI' 켜져있는지 확인"
-  echo "  3. 1Password 앱에서 '터미널 접근 허용' 승인했는지 확인"
-  exit 1
-fi
+# 직접 폴링 (wait_for 함수의 따옴표 문제 회피)
+OP_TIMEOUT=300
+OP_ELAPSED=0
+OP_SPINNER='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
+
+printf "1Password 인증 대기 중... "
+while ! op read "op://Personal/Github-H8njo/username" &>/dev/null; do
+  i=$(( OP_ELAPSED % ${#OP_SPINNER} ))
+  printf "\r1Password 인증 대기 중... %s" "${OP_SPINNER:$i:1}"
+  sleep 1
+  OP_ELAPSED=$((OP_ELAPSED + 1))
+  if [ $OP_ELAPSED -ge $OP_TIMEOUT ]; then
+    printf "\r1Password 인증 대기 중... ❌ 타임아웃\n"
+    echo ""
+    echo "❌ 1Password 데이터 접근에 실패했습니다."
+    echo ""
+    echo "확인사항:"
+    echo "  1. 1Password 앱이 잠금 해제되어 있는지 확인"
+    echo "  2. Settings → Developer → 'Integrate with 1Password CLI' 켜져있는지 확인"
+    echo "  3. 1Password 앱에서 '터미널 접근 허용' 승인했는지 확인"
+    exit 1
+  fi
+done
+printf "\r1Password 인증 대기 중... ✓\n"
 echo "✓ 1Password 데이터 접근 가능"
 
 # =============================================================================
