@@ -15,6 +15,9 @@ plugins=(git zsh-syntax-highlighting zsh-autosuggestions z)
 
 source $ZSH/oh-my-zsh.sh
 
+# thefuck
+eval $(thefuck --alias)
+
 # Aliases
 alias c="clear"
 alias e="exit"

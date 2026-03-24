@@ -4,6 +4,7 @@ tap "homebrew/bundle"
 # Terminal
 brew "zsh"
 brew "tmux"
+brew "thefuck"
 
 # Dotfiles
 brew "chezmoi"
