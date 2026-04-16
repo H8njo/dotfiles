@@ -316,6 +316,10 @@ if command -v claude &> /dev/null; then
   echo ""
   echo "Claude Code 인증..."
   claude login
+
+  if [ -f "$HOME/.claude/install.sh" ]; then
+    bash "$HOME/.claude/install.sh"
+  fi
 fi
 
 # =============================================================================
